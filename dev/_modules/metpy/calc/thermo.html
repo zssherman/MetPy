@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>metpy.calc.thermo &mdash; MetPy 0.6</title>
+  <title>metpy.calc.thermo &mdash; MetPy 0.7</title>
   
 
   
@@ -43,7 +43,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="MetPy 0.6" href="../../../index.html"/>
+    <link rel="top" title="MetPy 0.7" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -79,7 +79,7 @@
                 
                   <div class="version-dropdown">
                     <select class="version-list" id="version-list">
-                      <option value=''>0.6</option>
+                      <option value=''>0.7</option>
                       
                         
                           <option value="../latest">latest</option>
@@ -189,7 +189,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for metpy.calc.thermo</h1><div class="highlight"><pre>
-<span></span><span class="c1"># Copyright (c) 2008,2015,2016,2017 MetPy Developers.</span>
+<span></span><span class="c1"># Copyright (c) 2008,2015,2016,2017,2018 MetPy Developers.</span>
 <span class="c1"># Distributed under the terms of the BSD 3-Clause License.</span>
 <span class="c1"># SPDX-License-Identifier: BSD-3-Clause</span>
 <span class="sd">&quot;&quot;&quot;Contains a collection of thermodynamic calculations.&quot;&quot;&quot;</span>
@@ -203,7 +203,7 @@
 <span class="kn">import</span> <span class="nn">scipy.optimize</span> <span class="k">as</span> <span class="nn">so</span>
 
 <span class="kn">from</span> <span class="nn">.tools</span> <span class="k">import</span> <span class="p">(</span><span class="n">_greater_or_close</span><span class="p">,</span> <span class="n">_less_or_close</span><span class="p">,</span> <span class="n">broadcast_indices</span><span class="p">,</span> <span class="n">find_intersections</span><span class="p">,</span>
-                    <span class="n">get_layer</span><span class="p">,</span> <span class="n">interp</span><span class="p">)</span>
+                    <span class="n">first_derivative</span><span class="p">,</span> <span class="n">get_layer</span><span class="p">,</span> <span class="n">interp</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">..constants</span> <span class="k">import</span> <span class="n">Cp_d</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">Lv</span><span class="p">,</span> <span class="n">P0</span><span class="p">,</span> <span class="n">Rd</span>
 <span class="kn">from</span> <span class="nn">..package_tools</span> <span class="k">import</span> <span class="n">Exporter</span>
 <span class="kn">from</span> <span class="nn">..units</span> <span class="k">import</span> <span class="n">atleast_1d</span><span class="p">,</span> <span class="n">check_units</span><span class="p">,</span> <span class="n">concatenate</span><span class="p">,</span> <span class="n">units</span>
@@ -241,6 +241,39 @@
     <span class="n">e</span> <span class="o">=</span> <span class="n">saturation_vapor_pressure</span><span class="p">(</span><span class="n">dewpt</span><span class="p">)</span>
     <span class="n">e_s</span> <span class="o">=</span> <span class="n">saturation_vapor_pressure</span><span class="p">(</span><span class="n">temperature</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">e</span> <span class="o">/</span> <span class="n">e_s</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="exner_function"><a class="viewcode-back" href="../../../api/generated/metpy.calc.exner_function.html#metpy.calc.exner_function">[docs]</a><span class="nd">@exporter</span><span class="o">.</span><span class="n">export</span>
+<span class="nd">@check_units</span><span class="p">(</span><span class="s1">&#39;[pressure]&#39;</span><span class="p">,</span> <span class="s1">&#39;[pressure]&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">exner_function</span><span class="p">(</span><span class="n">pressure</span><span class="p">,</span> <span class="n">reference_pressure</span><span class="o">=</span><span class="n">P0</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Calculate the Exner function.</span>
+
+<span class="sd">    .. math:: \Pi = \left( \frac{p}{p_0} \right)^\kappa</span>
+
+<span class="sd">    This can be used to calculate potential temperature from temperature (and visa-versa),</span>
+<span class="sd">    since</span>
+
+<span class="sd">    .. math:: \Pi = \frac{T}{\theta}</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pressure : `pint.Quantity`</span>
+<span class="sd">        The total atmospheric pressure</span>
+<span class="sd">    reference_pressure : `pint.Quantity`, optional</span>
+<span class="sd">        The reference pressure against which to calculate the Exner function, defaults to P0</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    `pint.Quantity`</span>
+<span class="sd">        The value of the Exner function at the given pressure</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    potential_temperature</span>
+<span class="sd">    temperature_from_potential_temperature</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">pressure</span> <span class="o">/</span> <span class="n">reference_pressure</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;dimensionless&#39;</span><span class="p">)</span><span class="o">**</span><span class="n">kappa</span></div>
 
 
 <div class="viewcode-block" id="potential_temperature"><a class="viewcode-back" href="../../../api/generated/metpy.calc.potential_temperature.html#metpy.calc.potential_temperature">[docs]</a><span class="nd">@exporter</span><span class="o">.</span><span class="n">export</span>
@@ -281,7 +314,51 @@
 <span class="sd">    &lt;Quantity(290.96653180346203, &#39;kelvin&#39;)&gt;</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">temperature</span> <span class="o">*</span> <span class="p">(</span><span class="n">P0</span> <span class="o">/</span> <span class="n">pressure</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;dimensionless&#39;</span><span class="p">)</span><span class="o">**</span><span class="n">kappa</span></div>
+    <span class="k">return</span> <span class="n">temperature</span> <span class="o">/</span> <span class="n">exner_function</span><span class="p">(</span><span class="n">pressure</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="temperature_from_potential_temperature"><a class="viewcode-back" href="../../../api/generated/metpy.calc.temperature_from_potential_temperature.html#metpy.calc.temperature_from_potential_temperature">[docs]</a><span class="nd">@exporter</span><span class="o">.</span><span class="n">export</span>
+<span class="nd">@check_units</span><span class="p">(</span><span class="s1">&#39;[pressure]&#39;</span><span class="p">,</span> <span class="s1">&#39;[temperature]&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">temperature_from_potential_temperature</span><span class="p">(</span><span class="n">pressure</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Calculate the temperature from a given potential temperature.</span>
+
+<span class="sd">    Uses the inverse of the Poisson equation to calculate the temperature from a</span>
+<span class="sd">    given potential temperature at a specific pressure level.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pressure : `pint.Quantity`</span>
+<span class="sd">        The total atmospheric pressure</span>
+<span class="sd">    theta : `pint.Quantity`</span>
+<span class="sd">        The potential temperature</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    `pint.Quantity`</span>
+<span class="sd">        The temperature corresponding to the potential temperature and pressure.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    dry_lapse</span>
+<span class="sd">    potential_temperature</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Formula:</span>
+
+<span class="sd">    .. math:: T = \Theta (P / P_0)^\kappa</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from metpy.units import units</span>
+<span class="sd">    &gt;&gt;&gt; from metpy.calc import temperature_from_potential_temperature</span>
+<span class="sd">    &gt;&gt;&gt; # potential temperature</span>
+<span class="sd">    &gt;&gt;&gt; theta = np.array([ 286.12859679, 288.22362587]) * units.kelvin</span>
+<span class="sd">    &gt;&gt;&gt; p = 850 * units.mbar</span>
+<span class="sd">    &gt;&gt;&gt; T = temperature_from_potential_temperature(p,theta)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">theta</span> <span class="o">*</span> <span class="n">exner_function</span><span class="p">(</span><span class="n">pressure</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="dry_lapse"><a class="viewcode-back" href="../../../api/generated/metpy.calc.dry_lapse.html#metpy.calc.dry_lapse">[docs]</a><span class="nd">@exporter</span><span class="o">.</span><span class="n">export</span>
@@ -634,7 +711,7 @@
 <span class="sd">    temperature : `pint.Quantity`</span>
 <span class="sd">        Air temperature</span>
 <span class="sd">    rh : `pint.Quantity`</span>
-<span class="sd">        Relative humidity expressed as a ratio in the range (0, 1]</span>
+<span class="sd">        Relative humidity expressed as a ratio in the range 0 &lt; rh &lt;= 1</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -802,6 +879,72 @@
     <span class="n">th_e</span> <span class="o">=</span> <span class="n">th_l</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">((</span><span class="mf">3036.</span> <span class="o">/</span> <span class="n">t_l</span> <span class="o">-</span> <span class="mf">1.78</span><span class="p">)</span> <span class="o">*</span> <span class="n">r</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mf">0.448</span> <span class="o">*</span> <span class="n">r</span><span class="p">))</span>
 
     <span class="k">return</span> <span class="n">th_e</span> <span class="o">*</span> <span class="n">units</span><span class="o">.</span><span class="n">kelvin</span></div>
+
+
+<div class="viewcode-block" id="saturation_equivalent_potential_temperature"><a class="viewcode-back" href="../../../api/generated/metpy.calc.saturation_equivalent_potential_temperature.html#metpy.calc.saturation_equivalent_potential_temperature">[docs]</a><span class="nd">@exporter</span><span class="o">.</span><span class="n">export</span>
+<span class="nd">@check_units</span><span class="p">(</span><span class="s1">&#39;[pressure]&#39;</span><span class="p">,</span> <span class="s1">&#39;[temperature]&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">saturation_equivalent_potential_temperature</span><span class="p">(</span><span class="n">pressure</span><span class="p">,</span> <span class="n">temperature</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Calculate saturation equivalent potential temperature.</span>
+
+<span class="sd">    This calculation must be given an air parcel&#39;s pressure and temperature.</span>
+<span class="sd">    The implementation uses the formula outlined in [Bolton1980]_ for the</span>
+<span class="sd">    equivalent potential temperature, and assumes a saturated process.</span>
+
+<span class="sd">    First, because we assume a saturated process, the temperature at the LCL is</span>
+<span class="sd">    equivalent to the current temperature. Therefore the following equation</span>
+
+<span class="sd">    .. math:: T_{L}=\frac{1}{\frac{1}{T_{D}-56}+\frac{ln(T_{K}/T_{D})}{800}}+56</span>
+
+<span class="sd">    reduces to</span>
+
+<span class="sd">    .. math:: T_{L} = T_{K}</span>
+
+<span class="sd">    Then the potential temperature at the temperature/LCL is calculated:</span>
+
+<span class="sd">    .. math:: \theta_{DL}=T_{K}\left(\frac{1000}{p-e}\right)^k</span>
+<span class="sd">              \left(\frac{T_{K}}{T_{L}}\right)^{.28r}</span>
+
+<span class="sd">    However, because</span>
+
+<span class="sd">    .. math:: T_{L} = T_{K}</span>
+
+<span class="sd">    it follows that</span>
+
+<span class="sd">    .. math:: \theta_{DL}=T_{K}\left(\frac{1000}{p-e}\right)^k</span>
+
+<span class="sd">    Both of these are used to calculate the final equivalent potential temperature:</span>
+
+<span class="sd">    .. math:: \theta_{E}=\theta_{DL}\exp\left[\left(\frac{3036.}{T_{K}}</span>
+<span class="sd">                                              -1.78\right)*r(1+.448r)\right]</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pressure: `pint.Quantity`</span>
+<span class="sd">        Total atmospheric pressure</span>
+<span class="sd">    temperature: `pint.Quantity`</span>
+<span class="sd">        Temperature of parcel</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    `pint.Quantity`</span>
+<span class="sd">        The saturation equivalent potential temperature of the parcel</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    [Bolton1980]_ formula for Theta-e is used (for saturated case), since according to</span>
+<span class="sd">    [DaviesJones2009]_ it is the most accurate non-iterative formulation</span>
+<span class="sd">    available.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">temperature</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;kelvin&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">pressure</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;hPa&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="n">saturation_vapor_pressure</span><span class="p">(</span><span class="n">temperature</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;hPa&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">saturation_mixing_ratio</span><span class="p">(</span><span class="n">pressure</span><span class="p">,</span> <span class="n">temperature</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span>
+
+    <span class="n">th_l</span> <span class="o">=</span> <span class="n">t</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1000</span> <span class="o">/</span> <span class="p">(</span><span class="n">p</span> <span class="o">-</span> <span class="n">e</span><span class="p">))</span> <span class="o">**</span> <span class="n">kappa</span>
+    <span class="n">th_es</span> <span class="o">=</span> <span class="n">th_l</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">((</span><span class="mf">3036.</span> <span class="o">/</span> <span class="n">t</span> <span class="o">-</span> <span class="mf">1.78</span><span class="p">)</span> <span class="o">*</span> <span class="n">r</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mf">0.448</span> <span class="o">*</span> <span class="n">r</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">th_es</span> <span class="o">*</span> <span class="n">units</span><span class="o">.</span><span class="n">kelvin</span></div>
 
 
 <div class="viewcode-block" id="virtual_temperature"><a class="viewcode-back" href="../../../api/generated/metpy.calc.virtual_temperature.html#metpy.calc.virtual_temperature">[docs]</a><span class="nd">@exporter</span><span class="o">.</span><span class="n">export</span>
@@ -1033,7 +1176,8 @@
 <span class="sd">    relative_humidity_from_mixing_ratio, saturation_mixing_ratio</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">relative_humidity</span> <span class="o">*</span> <span class="n">saturation_mixing_ratio</span><span class="p">(</span><span class="n">pressure</span><span class="p">,</span> <span class="n">temperature</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="p">(</span><span class="n">relative_humidity</span> <span class="o">*</span>
+            <span class="n">saturation_mixing_ratio</span><span class="p">(</span><span class="n">pressure</span><span class="p">,</span> <span class="n">temperature</span><span class="p">))</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;dimensionless&#39;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="relative_humidity_from_mixing_ratio"><a class="viewcode-back" href="../../../api/generated/metpy.calc.relative_humidity_from_mixing_ratio.html#metpy.calc.relative_humidity_from_mixing_ratio">[docs]</a><span class="nd">@exporter</span><span class="o">.</span><span class="n">export</span>
@@ -1901,6 +2045,175 @@
 
     <span class="k">return</span> <span class="n">thickness_hydrostatic</span><span class="p">(</span><span class="n">pressure</span><span class="p">,</span> <span class="n">temperature</span><span class="p">,</span> <span class="n">mixing</span><span class="o">=</span><span class="n">mixing</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="n">bottom</span><span class="p">,</span>
                                  <span class="n">depth</span><span class="o">=</span><span class="n">depth</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="brunt_vaisala_frequency_squared"><a class="viewcode-back" href="../../../api/generated/metpy.calc.brunt_vaisala_frequency_squared.html#metpy.calc.brunt_vaisala_frequency_squared">[docs]</a><span class="nd">@exporter</span><span class="o">.</span><span class="n">export</span>
+<span class="nd">@check_units</span><span class="p">(</span><span class="s1">&#39;[length]&#39;</span><span class="p">,</span> <span class="s1">&#39;[temperature]&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">brunt_vaisala_frequency_squared</span><span class="p">(</span><span class="n">heights</span><span class="p">,</span> <span class="n">potential_temperature</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Calculate the square of the Brunt-Vaisala frequency.</span>
+
+<span class="sd">    Brunt-Vaisala frequency squared (a measure of atmospheric stability) is given by the</span>
+<span class="sd">    formula:</span>
+
+<span class="sd">    .. math:: N^2 = \frac{g}{\theta} \frac{d\theta}{dz}</span>
+
+<span class="sd">    This formula is based off of Equations 3.75 and 3.77 in [Hobbs2006]_.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    heights : array-like</span>
+<span class="sd">        One-dimensional profile of atmospheric height</span>
+<span class="sd">    potential_temperature : array-like</span>
+<span class="sd">        Atmospheric potential temperature</span>
+<span class="sd">    axis : int, optional</span>
+<span class="sd">        The axis corresponding to vertical in the potential temperature array, defaults to 0.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    array-like</span>
+<span class="sd">        The square of the Brunt-Vaisala frequency.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    brunt_vaisala_frequency, brunt_vaisala_period, potential_temperature</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Ensure validity of temperature units</span>
+    <span class="n">potential_temperature</span> <span class="o">=</span> <span class="n">potential_temperature</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;K&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Calculate and return the square of Brunt-Vaisala frequency</span>
+    <span class="k">return</span> <span class="n">g</span> <span class="o">/</span> <span class="n">potential_temperature</span> <span class="o">*</span> <span class="n">first_derivative</span><span class="p">(</span><span class="n">potential_temperature</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">heights</span><span class="p">,</span>
+                                                        <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="brunt_vaisala_frequency"><a class="viewcode-back" href="../../../api/generated/metpy.calc.brunt_vaisala_frequency.html#metpy.calc.brunt_vaisala_frequency">[docs]</a><span class="nd">@exporter</span><span class="o">.</span><span class="n">export</span>
+<span class="nd">@check_units</span><span class="p">(</span><span class="s1">&#39;[length]&#39;</span><span class="p">,</span> <span class="s1">&#39;[temperature]&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">brunt_vaisala_frequency</span><span class="p">(</span><span class="n">heights</span><span class="p">,</span> <span class="n">potential_temperature</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Calculate the Brunt-Vaisala frequency.</span>
+
+<span class="sd">    This function will calculate the Brunt-Vaisala frequency as follows:</span>
+
+<span class="sd">    .. math:: N = \left( \frac{g}{\theta} \frac{d\theta}{dz} \right)^\frac{1}{2}</span>
+
+<span class="sd">    This formula based off of Equations 3.75 and 3.77 in [Hobbs2006]_.</span>
+
+<span class="sd">    This function is a wrapper for `brunt_vaisala_frequency_squared` that filters out negative</span>
+<span class="sd">    (unstable) quanties and takes the square root.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    heights : array-like</span>
+<span class="sd">        One-dimensional profile of atmospheric height</span>
+<span class="sd">    potential_temperature : array-like</span>
+<span class="sd">        Atmospheric potential temperature</span>
+<span class="sd">    axis : int, optional</span>
+<span class="sd">        The axis corresponding to vertical in the potential temperature array, defaults to 0.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    array-like</span>
+<span class="sd">        Brunt-Vaisala frequency.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    brunt_vaisala_frequency_squared, brunt_vaisala_period, potential_temperature</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">bv_freq_squared</span> <span class="o">=</span> <span class="n">brunt_vaisala_frequency_squared</span><span class="p">(</span><span class="n">heights</span><span class="p">,</span> <span class="n">potential_temperature</span><span class="p">,</span>
+                                                      <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+    <span class="n">bv_freq_squared</span><span class="p">[</span><span class="n">bv_freq_squared</span><span class="o">.</span><span class="n">magnitude</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">bv_freq_squared</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="brunt_vaisala_period"><a class="viewcode-back" href="../../../api/generated/metpy.calc.brunt_vaisala_period.html#metpy.calc.brunt_vaisala_period">[docs]</a><span class="nd">@exporter</span><span class="o">.</span><span class="n">export</span>
+<span class="nd">@check_units</span><span class="p">(</span><span class="s1">&#39;[length]&#39;</span><span class="p">,</span> <span class="s1">&#39;[temperature]&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">brunt_vaisala_period</span><span class="p">(</span><span class="n">heights</span><span class="p">,</span> <span class="n">potential_temperature</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Calculate the Brunt-Vaisala period.</span>
+
+<span class="sd">    This function is a helper function for `brunt_vaisala_frequency` that calculates the</span>
+<span class="sd">    period of oscilation as in Exercise 3.13 of [Hobbs2006]_:</span>
+
+<span class="sd">    .. math:: \tau = \frac{2\pi}{N}</span>
+
+<span class="sd">    Returns `NaN` when :math:`N^2 &gt; 0`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    heights : array-like</span>
+<span class="sd">        One-dimensional profile of atmospheric height</span>
+<span class="sd">    potential_temperature : array-like</span>
+<span class="sd">        Atmospheric potential temperature</span>
+<span class="sd">    axis : int, optional</span>
+<span class="sd">        The axis corresponding to vertical in the potential temperature array, defaults to 0.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    array-like</span>
+<span class="sd">        Brunt-Vaisala period.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    brunt_vaisala_frequency, brunt_vaisala_frequency_squared, potential_temperature</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">bv_freq_squared</span> <span class="o">=</span> <span class="n">brunt_vaisala_frequency_squared</span><span class="p">(</span><span class="n">heights</span><span class="p">,</span> <span class="n">potential_temperature</span><span class="p">,</span>
+                                                      <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+    <span class="n">bv_freq_squared</span><span class="p">[</span><span class="n">bv_freq_squared</span><span class="o">.</span><span class="n">magnitude</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+    <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">bv_freq_squared</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="wet_bulb_temperature"><a class="viewcode-back" href="../../../api/generated/metpy.calc.wet_bulb_temperature.html#metpy.calc.wet_bulb_temperature">[docs]</a><span class="nd">@exporter</span><span class="o">.</span><span class="n">export</span>
+<span class="nd">@check_units</span><span class="p">(</span><span class="s1">&#39;[pressure]&#39;</span><span class="p">,</span> <span class="s1">&#39;[temperature]&#39;</span><span class="p">,</span> <span class="s1">&#39;[temperature]&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">wet_bulb_temperature</span><span class="p">(</span><span class="n">pressure</span><span class="p">,</span> <span class="n">temperature</span><span class="p">,</span> <span class="n">dewpoint</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate the wet-bulb temperature using Normand&#39;s rule.</span>
+
+<span class="sd">    This function calculates the wet-bulb temperature using the Normand method. The LCL is</span>
+<span class="sd">    computed, and that parcel brought down to the starting pressure along a moist adiabat.</span>
+<span class="sd">    Norman method (and others) described and compared by [Knox2017]_.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pressure : `pint.Quantity`</span>
+<span class="sd">        Initial atmospheric pressure</span>
+<span class="sd">    temperature : `pint.Quantity`</span>
+<span class="sd">        Initial atmospheric temperature</span>
+<span class="sd">    dewpoint : `pint.Quantity`</span>
+<span class="sd">        Initial atmospheric dewpoint</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    array-like</span>
+<span class="sd">        Wet-bulb temperature</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    lcl, moist_lapse</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">pressure</span><span class="p">,</span> <span class="s1">&#39;shape&#39;</span><span class="p">):</span>
+        <span class="n">pressure</span> <span class="o">=</span> <span class="n">atleast_1d</span><span class="p">(</span><span class="n">pressure</span><span class="p">)</span>
+        <span class="n">temperature</span> <span class="o">=</span> <span class="n">atleast_1d</span><span class="p">(</span><span class="n">temperature</span><span class="p">)</span>
+        <span class="n">dewpoint</span> <span class="o">=</span> <span class="n">atleast_1d</span><span class="p">(</span><span class="n">dewpoint</span><span class="p">)</span>
+
+    <span class="n">it</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nditer</span><span class="p">([</span><span class="n">pressure</span><span class="p">,</span> <span class="n">temperature</span><span class="p">,</span> <span class="n">dewpoint</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span>
+                   <span class="n">op_dtypes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;float&#39;</span><span class="p">,</span> <span class="s1">&#39;float&#39;</span><span class="p">,</span> <span class="s1">&#39;float&#39;</span><span class="p">,</span> <span class="s1">&#39;float&#39;</span><span class="p">],</span>
+                   <span class="n">flags</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;buffered&#39;</span><span class="p">])</span>
+
+    <span class="k">for</span> <span class="n">press</span><span class="p">,</span> <span class="n">temp</span><span class="p">,</span> <span class="n">dewp</span><span class="p">,</span> <span class="n">ret</span> <span class="ow">in</span> <span class="n">it</span><span class="p">:</span>
+        <span class="n">press</span> <span class="o">=</span> <span class="n">press</span> <span class="o">*</span> <span class="n">pressure</span><span class="o">.</span><span class="n">units</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="n">temp</span> <span class="o">*</span> <span class="n">temperature</span><span class="o">.</span><span class="n">units</span>
+        <span class="n">dewp</span> <span class="o">=</span> <span class="n">dewp</span> <span class="o">*</span> <span class="n">dewpoint</span><span class="o">.</span><span class="n">units</span>
+        <span class="n">lcl_pressure</span><span class="p">,</span> <span class="n">lcl_temperature</span> <span class="o">=</span> <span class="n">lcl</span><span class="p">(</span><span class="n">press</span><span class="p">,</span> <span class="n">temp</span><span class="p">,</span> <span class="n">dewp</span><span class="p">)</span>
+        <span class="n">moist_adiabat_temperatures</span> <span class="o">=</span> <span class="n">moist_lapse</span><span class="p">(</span><span class="n">concatenate</span><span class="p">([</span><span class="n">lcl_pressure</span><span class="p">,</span> <span class="n">press</span><span class="p">]),</span>
+                                                 <span class="n">lcl_temperature</span><span class="p">)</span>
+        <span class="n">ret</span><span class="p">[</span><span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">moist_adiabat_temperatures</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="c1"># If we started with a scalar, return a scalar</span>
+    <span class="k">if</span> <span class="n">it</span><span class="o">.</span><span class="n">operands</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">it</span><span class="o">.</span><span class="n">operands</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">moist_adiabat_temperatures</span><span class="o">.</span><span class="n">units</span>
+    <span class="k">return</span> <span class="n">it</span><span class="o">.</span><span class="n">operands</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">moist_adiabat_temperatures</span><span class="o">.</span><span class="n">units</span></div>
 </pre></div>
 
            </div>
@@ -1916,7 +2229,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, MetPy Developers.
-      Last updated on Jan 04, 2018 at 19:17:05.
+      Last updated on Apr 12, 2018 at 00:47:55.
 
     </p>
   </div>
@@ -1953,7 +2266,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.6.1+116.gba13b4c',
+            VERSION:'0.7.0+135.gaac1d34',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

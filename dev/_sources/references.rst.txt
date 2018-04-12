@@ -45,6 +45,12 @@ References
 .. [Hobbs2006] Hobbs, P. V., and J. M. Wallace, 2006: *Atmospheric Science: An Introductory
            Survey*. 2nd ed. Academic Press, 504 pp.
 
+.. [Knox2017] Knox, John A., David S. Nevius, and Pamela N. Knox., 2017: Two Simple and
+              Accurate Approximations for Wet-Bulb Temperature in Moist Conditions, with
+              Forecasting Applications. *Bulletin of the American Meteorological Society*,
+              **98.9**, 1897-1906, doi:
+              `10.1175/BAMS-D-16-0246.1 <https://doi.org/10.1175/BAMS-D-16-0246.1>`_.
+
 .. [Lackmann2011] Lackmann, G., 2011: *Midlatitude Synoptic Meteorology*. Amer. Meteor. Soc.,
            345 pp.
 
@@ -80,6 +86,9 @@ References
            advantages for numerical forecasting. *J. Meteor.*, **14**, 184-185,
            doi:`10.1175/1520-0469(1957)014%3C0184:ACSHSS%3E2.0.CO;2
            <https://doi.org/10.1175/1520-0469(1957)014%3C0184:ACSHSS%3E2.0.CO;2>`_.
+
+.. [Rochette2006] Rochette, Scott M., and Patrick S. Market. "A primer on the
+                  ageostrophic wind." Natl. Weather Dig. 30 (2006): 17-28.
 
 .. [Rothfusz1990] Rothfusz, L.P.: *The Heat Index "Equation"*. Fort Worth, TX: Scientific Services
            Division, NWS Southern Region Headquarters, 1990.

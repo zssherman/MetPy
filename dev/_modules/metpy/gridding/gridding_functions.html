@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>metpy.gridding.gridding_functions &mdash; MetPy 0.6</title>
+  <title>metpy.gridding.gridding_functions &mdash; MetPy 0.7</title>
   
 
   
@@ -43,7 +43,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="MetPy 0.6" href="../../../index.html"/>
+    <link rel="top" title="MetPy 0.7" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -79,7 +79,7 @@
                 
                   <div class="version-dropdown">
                     <select class="version-list" id="version-list">
-                      <option value=''>0.6</option>
+                      <option value=''>0.7</option>
                       
                         
                           <option value="../latest">latest</option>
@@ -324,7 +324,8 @@
 <div class="viewcode-block" id="interpolate"><a class="viewcode-back" href="../../../api/generated/metpy.gridding.interpolate.html#metpy.gridding.interpolate">[docs]</a><span class="nd">@exporter</span><span class="o">.</span><span class="n">export</span>
 <span class="k">def</span> <span class="nf">interpolate</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">interp_type</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">hres</span><span class="o">=</span><span class="mi">50000</span><span class="p">,</span>
                 <span class="n">minimum_neighbors</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">kappa_star</span><span class="o">=</span><span class="mf">5.052</span><span class="p">,</span>
-                <span class="n">search_radius</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rbf_func</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">rbf_smooth</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+                <span class="n">search_radius</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rbf_func</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">rbf_smooth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="n">boundary_coords</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Interpolate given (x,y), observation (z) pairs to a grid based on given parameters.</span>
 
 <span class="sd">    Parameters</span>
@@ -362,6 +363,9 @@
 <span class="sd">        information.</span>
 <span class="sd">    rbf_smooth: float</span>
 <span class="sd">        Smoothing value applied to rbf interpolation.  Higher values result in more smoothing.</span>
+<span class="sd">    boundary_coords: dictionary</span>
+<span class="sd">        Optional dictionary containing coordinates of the study area boundary. Dictionary</span>
+<span class="sd">        should be in format: {&#39;west&#39;: west, &#39;south&#39;: south, &#39;east&#39;: east, &#39;north&#39;: north}</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -373,7 +377,9 @@
 <span class="sd">        2-dimensional array representing the interpolated values for each grid.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">grid_x</span><span class="p">,</span> <span class="n">grid_y</span> <span class="o">=</span> <span class="n">points</span><span class="o">.</span><span class="n">generate_grid</span><span class="p">(</span><span class="n">hres</span><span class="p">,</span> <span class="n">points</span><span class="o">.</span><span class="n">get_boundary_coords</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">boundary_coords</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">boundary_coords</span> <span class="o">=</span> <span class="n">points</span><span class="o">.</span><span class="n">get_boundary_coords</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">grid_x</span><span class="p">,</span> <span class="n">grid_y</span> <span class="o">=</span> <span class="n">points</span><span class="o">.</span><span class="n">generate_grid</span><span class="p">(</span><span class="n">hres</span><span class="p">,</span> <span class="n">boundary_coords</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">interp_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="s1">&#39;nearest&#39;</span><span class="p">,</span> <span class="s1">&#39;cubic&#39;</span><span class="p">]:</span>
         <span class="n">points_zip</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)))</span>
@@ -431,7 +437,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, MetPy Developers.
-      Last updated on Jan 04, 2018 at 19:17:05.
+      Last updated on Apr 12, 2018 at 00:47:55.
 
     </p>
   </div>
@@ -468,7 +474,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.6.1+116.gba13b4c',
+            VERSION:'0.7.0+135.gaac1d34',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

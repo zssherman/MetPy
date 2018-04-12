@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Natural Neighbor Verification &mdash; MetPy 0.6</title>
+  <title>Natural Neighbor Verification &mdash; MetPy 0.7</title>
   
 
   
@@ -43,7 +43,7 @@
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="MetPy 0.6" href="../../index.html"/>
+    <link rel="top" title="MetPy 0.7" href="../../index.html"/>
         <link rel="up" title="MetPy Examples" href="../index.html"/>
         <link rel="next" title="Skew-T with Complex Layout" href="../plots/Skew-T_Layout.html"/>
         <link rel="prev" title="Inverse Distance Verification: Cressman and Barnes" href="Inverse_Distance_Verification.html"/> 
@@ -81,7 +81,7 @@
                 
                   <div class="version-dropdown">
                     <select class="version-list" id="version-list">
-                      <option value=''>0.6</option>
+                      <option value=''>0.7</option>
                       
                         
                           <option value="../latest">latest</option>
@@ -252,7 +252,7 @@ n - 1 = n, n = n + 1, n + 1 = n + 2</p>
 <li><p class="first">Repeat steps 4 through 7 for each grid cell.</p>
 </li>
 </ol>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">scipy.spatial</span> <span class="kn">import</span> <a href="http://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.ConvexHull.html#scipy.spatial.ConvexHull" title="View documentation for scipy.spatial.ConvexHull"><span class="n">ConvexHull</span></a><span class="p">,</span> <a href="http://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.Delaunay.html#scipy.spatial.Delaunay" title="View documentation for scipy.spatial.Delaunay"><span class="n">Delaunay</span></a><span class="p">,</span> <a href="http://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.delaunay_plot_2d.html#scipy.spatial.delaunay_plot_2d" title="View documentation for scipy.spatial.delaunay_plot_2d"><span class="n">delaunay_plot_2d</span></a><span class="p">,</span> <a href="http://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.Voronoi.html#scipy.spatial.Voronoi" title="View documentation for scipy.spatial.Voronoi"><span class="n">Voronoi</span></a><span class="p">,</span> <a href="http://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.voronoi_plot_2d.html#scipy.spatial.voronoi_plot_2d" title="View documentation for scipy.spatial.voronoi_plot_2d"><span class="n">voronoi_plot_2d</span></a>
 <span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="kn">import</span> <a href="http://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.euclidean.html#scipy.spatial.distance.euclidean" title="View documentation for scipy.spatial.distance.euclidean"><span class="n">euclidean</span></a>
@@ -269,7 +269,7 @@ value divided by 1000.</p>
 <p>We then create two test points (grid 0 &amp; grid 1) at which we want to
 estimate a value using natural neighbor interpolation.</p>
 <p>The locations of these observations are then used to generate a Delaunay triangulation.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><a href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.random.seed.html#numpy.random.seed" title="View documentation for numpy.random.seed"><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span></a><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><a href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.random.seed.html#numpy.random.seed" title="View documentation for numpy.random.seed"><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span></a><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
 
 <span class="n">pts</span> <span class="o">=</span> <a href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.random.randint.html#numpy.random.randint" title="View documentation for numpy.random.randint"><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span></a><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 <span class="n">xp</span> <span class="o">=</span> <span class="n">pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
@@ -301,9 +301,9 @@ estimate a value using natural neighbor interpolation.</p>
 </div>
 <img alt="../../_images/sphx_glr_Natural_Neighbor_Verification_001.png" class="align-center" src="../../_images/sphx_glr_Natural_Neighbor_Verification_001.png" />
 <p>Using the circumcenter and circumcircle radius information from
-<code class="xref py py-func docutils literal"><span class="pre">metpy.gridding.triangles.find_natural_neighbors()</span></code>, we can visually
+<code class="xref py py-func docutils literal notranslate"><span class="pre">metpy.gridding.triangles.find_natural_neighbors()</span></code>, we can visually
 examine the results to see if they are correct.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">draw_circle</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">draw_circle</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
     <span class="n">nx</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">r</span> <span class="o">*</span> <a href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.cos.html#numpy.cos" title="View documentation for numpy.cos"><span class="n">np</span><span class="o">.</span><span class="n">cos</span></a><span class="p">(</span><a href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.deg2rad.html#numpy.deg2rad" title="View documentation for numpy.deg2rad"><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span></a><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">360</span><span class="p">))))</span>
     <span class="n">ny</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">r</span> <span class="o">*</span> <a href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.sin.html#numpy.sin" title="View documentation for numpy.sin"><span class="n">np</span><span class="o">.</span><span class="n">sin</span></a><span class="p">(</span><a href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.deg2rad.html#numpy.deg2rad" title="View documentation for numpy.deg2rad"><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span></a><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">360</span><span class="p">))))</span>
     <a href="http://matplotlib.org/api/_as_gen/matplotlib.pyplot.plot.html#matplotlib.pyplot.plot" title="View documentation for matplotlib.pyplot.plot"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span></a><span class="p">(</span><span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
@@ -337,7 +337,7 @@ examine the results to see if they are correct.</p>
 <img alt="../../_images/sphx_glr_Natural_Neighbor_Verification_002.png" class="align-center" src="../../_images/sphx_glr_Natural_Neighbor_Verification_002.png" />
 <p>What?….the circle from triangle 8 looks pretty darn close. Why isn’t
 grid 0 included in that circle?</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">x_t</span><span class="p">,</span> <span class="n">y_t</span> <span class="o">=</span> <span class="n">tri_info</span><span class="p">[</span><span class="mi">8</span><span class="p">][</span><span class="s1">&#39;cc&#39;</span><span class="p">]</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">x_t</span><span class="p">,</span> <span class="n">y_t</span> <span class="o">=</span> <span class="n">tri_info</span><span class="p">[</span><span class="mi">8</span><span class="p">][</span><span class="s1">&#39;cc&#39;</span><span class="p">]</span>
 <span class="n">r</span> <span class="o">=</span> <span class="n">tri_info</span><span class="p">[</span><span class="mi">8</span><span class="p">][</span><span class="s1">&#39;r&#39;</span><span class="p">]</span>
 
 <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Distance between grid0 and Triangle 8 circumcenter:&#39;</span><span class="p">,</span>
@@ -346,13 +346,13 @@ grid 0 included in that circle?</p>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-default"><div class="highlight"><pre><span></span><span class="n">Distance</span> <span class="n">between</span> <span class="n">grid0</span> <span class="ow">and</span> <span class="n">Triangle</span> <span class="mi">8</span> <span class="n">circumcenter</span><span class="p">:</span> <span class="mf">25.30650398368644</span>
-<span class="n">Triangle</span> <span class="mi">8</span> <span class="n">circumradius</span><span class="p">:</span> <span class="mf">25.2587678</span>
+<div class="sphx-glr-script-out highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Distance</span> <span class="n">between</span> <span class="n">grid0</span> <span class="ow">and</span> <span class="n">Triangle</span> <span class="mi">8</span> <span class="n">circumcenter</span><span class="p">:</span> <span class="mf">25.30650398368644</span>
+<span class="n">Triangle</span> <span class="mi">8</span> <span class="n">circumradius</span><span class="p">:</span> <span class="mf">25.258767799971746</span>
 </pre></div>
 </div>
 <p>Lets do a manual check of the above interpolation value for grid 0 (southernmost grid)
 Grab the circumcenters and radii for natural neighbors</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">cc</span> <span class="o">=</span> <a href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.array.html#numpy.array" title="View documentation for numpy.array"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="n">tri_info</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="s1">&#39;cc&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">members</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cc</span> <span class="o">=</span> <a href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.array.html#numpy.array" title="View documentation for numpy.array"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="n">tri_info</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="s1">&#39;cc&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">members</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
 <span class="n">r</span> <span class="o">=</span> <a href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.array.html#numpy.array" title="View documentation for numpy.array"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="n">tri_info</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="s1">&#39;r&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">members</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
 
 <span class="k">print</span><span class="p">(</span><span class="s1">&#39;circumcenters:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">cc</span><span class="p">)</span>
@@ -360,11 +360,11 @@ Grab the circumcenters and radii for natural neighbors</p>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-default"><div class="highlight"><pre><span></span><span class="n">circumcenters</span><span class="p">:</span>
- <span class="p">[[</span> <span class="mf">36.32995951</span>  <span class="mf">48.24358974</span><span class="p">]</span>
- <span class="p">[</span> <span class="mf">21.</span>          <span class="mf">40.15277778</span><span class="p">]]</span>
+<div class="sphx-glr-script-out highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">circumcenters</span><span class="p">:</span>
+ <span class="p">[[</span><span class="mf">36.32995951</span> <span class="mf">48.24358974</span><span class="p">]</span>
+ <span class="p">[</span><span class="mf">21.</span>         <span class="mf">40.15277778</span><span class="p">]]</span>
 <span class="n">radii</span>
- <span class="p">[</span> <span class="mf">24.35529419</span>  <span class="mf">20.73432492</span><span class="p">]</span>
+ <span class="p">[</span><span class="mf">24.35529419</span> <span class="mf">20.73432492</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>Draw the natural neighbor triangles and their circumcenters. Also plot a <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/tutorial/spatial.html#voronoi-diagrams">Voronoi diagram</a>
@@ -372,7 +372,7 @@ which serves as a complementary (but not necessary)
 spatial data structure that we use here simply to show areal ratios.
 Notice that the two natural neighbor triangle circumcenters are also vertices
 in the Voronoi plot (green dots), and the observations are in the polygons (blue dots).</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">vor</span> <span class="o">=</span> <a href="http://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.Voronoi.html#scipy.spatial.Voronoi" title="View documentation for scipy.spatial.Voronoi"><span class="n">Voronoi</span></a><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">xp</span><span class="p">,</span> <span class="n">yp</span><span class="p">)))</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">vor</span> <span class="o">=</span> <a href="http://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.Voronoi.html#scipy.spatial.Voronoi" title="View documentation for scipy.spatial.Voronoi"><span class="n">Voronoi</span></a><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">xp</span><span class="p">,</span> <span class="n">yp</span><span class="p">)))</span>
 <a href="http://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.voronoi_plot_2d.html#scipy.spatial.voronoi_plot_2d" title="View documentation for scipy.spatial.voronoi_plot_2d"><span class="n">voronoi_plot_2d</span></a><span class="p">(</span><span class="n">vor</span><span class="p">)</span>
 
 <span class="n">nn_ind</span> <span class="o">=</span> <a href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.array.html#numpy.array" title="View documentation for numpy.array"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">])</span>
@@ -434,53 +434,53 @@ in the Voronoi plot (green dots), and the observations are in the polygons (blue
 <img alt="../../_images/sphx_glr_Natural_Neighbor_Verification_003.png" class="align-center" src="../../_images/sphx_glr_Natural_Neighbor_Verification_003.png" />
 <p>Put all of the generated polygon areas and their affiliated values in arrays.
 Calculate the total area of all of the generated polygons.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">areas</span> <span class="o">=</span> <a href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.array.html#numpy.array" title="View documentation for numpy.array"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="mf">60.434</span><span class="p">,</span> <span class="mf">448.296</span><span class="p">,</span> <span class="mf">25.916</span><span class="p">,</span> <span class="mf">70.647</span><span class="p">])</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">areas</span> <span class="o">=</span> <a href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.array.html#numpy.array" title="View documentation for numpy.array"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="mf">60.434</span><span class="p">,</span> <span class="mf">448.296</span><span class="p">,</span> <span class="mf">25.916</span><span class="p">,</span> <span class="mf">70.647</span><span class="p">])</span>
 <span class="n">values</span> <span class="o">=</span> <a href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.array.html#numpy.array" title="View documentation for numpy.array"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="mf">0.064</span><span class="p">,</span> <span class="mf">1.156</span><span class="p">,</span> <span class="mf">2.809</span><span class="p">,</span> <span class="mf">0.225</span><span class="p">])</span>
 <span class="n">total_area</span> <span class="o">=</span> <a href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.sum.html#numpy.sum" title="View documentation for numpy.sum"><span class="n">np</span><span class="o">.</span><span class="n">sum</span></a><span class="p">(</span><span class="n">areas</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="n">total_area</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-default"><div class="highlight"><pre><span></span><span class="mf">605.293</span>
+<div class="sphx-glr-script-out highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">605.2930000000001</span>
 </pre></div>
 </div>
 <p>For each polygon area, calculate its percent of total area.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">proportions</span> <span class="o">=</span> <span class="n">areas</span> <span class="o">/</span> <span class="n">total_area</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">proportions</span> <span class="o">=</span> <span class="n">areas</span> <span class="o">/</span> <span class="n">total_area</span>
 <span class="k">print</span><span class="p">(</span><span class="n">proportions</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span> <span class="mf">0.09984256</span>  <span class="mf">0.74062644</span>  <span class="mf">0.04281563</span>  <span class="mf">0.11671538</span><span class="p">]</span>
+<div class="sphx-glr-script-out highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mf">0.09984256</span> <span class="mf">0.74062644</span> <span class="mf">0.04281563</span> <span class="mf">0.11671538</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>Multiply the percent of total area by the respective values.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">contributions</span> <span class="o">=</span> <span class="n">proportions</span> <span class="o">*</span> <span class="n">values</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">contributions</span> <span class="o">=</span> <span class="n">proportions</span> <span class="o">*</span> <span class="n">values</span>
 <span class="k">print</span><span class="p">(</span><span class="n">contributions</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span> <span class="mf">0.00638992</span>  <span class="mf">0.85616417</span>  <span class="mf">0.1202691</span>   <span class="mf">0.02626096</span><span class="p">]</span>
+<div class="sphx-glr-script-out highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mf">0.00638992</span> <span class="mf">0.85616417</span> <span class="mf">0.1202691</span>  <span class="mf">0.02626096</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>The sum of this array is the interpolation value!</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">interpolation_value</span> <span class="o">=</span> <a href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.sum.html#numpy.sum" title="View documentation for numpy.sum"><span class="n">np</span><span class="o">.</span><span class="n">sum</span></a><span class="p">(</span><span class="n">contributions</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">interpolation_value</span> <span class="o">=</span> <a href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.sum.html#numpy.sum" title="View documentation for numpy.sum"><span class="n">np</span><span class="o">.</span><span class="n">sum</span></a><span class="p">(</span><span class="n">contributions</span><span class="p">)</span>
 <span class="n">function_output</span> <span class="o">=</span> <span class="n">nn_point</span><span class="p">(</span><span class="n">xp</span><span class="p">,</span> <span class="n">yp</span><span class="p">,</span> <span class="n">zp</span><span class="p">,</span> <span class="p">(</span><span class="n">sim_gridx</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sim_gridy</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">tri</span><span class="p">,</span> <span class="n">members</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">tri_info</span><span class="p">)</span>
 
 <span class="k">print</span><span class="p">(</span><span class="n">interpolation_value</span><span class="p">,</span> <span class="n">function_output</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-default"><div class="highlight"><pre><span></span><span class="mf">1.00908414768</span> <span class="mf">1.00908424443</span>
+<div class="sphx-glr-script-out highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">1.0090841476772403</span> <span class="mf">1.009084244425604</span>
 </pre></div>
 </div>
 <p>The values are slightly different due to truncating the area values in
 the above visual example to the 3rd decimal place.</p>
-<p><strong>Total running time of the script:</strong> ( 0 minutes  0.195 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  0.219 seconds)</p>
 <div class="sphx-glr-footer docutils container">
 <div class="sphx-glr-download docutils container">
-<a class="reference download internal" href="../../_downloads/Natural_Neighbor_Verification.py" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">Natural_Neighbor_Verification.py</span></code></a></div>
+<a class="reference download internal" href="../../_downloads/Natural_Neighbor_Verification.py" download=""><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">Natural_Neighbor_Verification.py</span></code></a></div>
 <div class="sphx-glr-download docutils container">
-<a class="reference download internal" href="../../_downloads/Natural_Neighbor_Verification.ipynb" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">Natural_Neighbor_Verification.ipynb</span></code></a></div>
+<a class="reference download internal" href="../../_downloads/Natural_Neighbor_Verification.ipynb" download=""><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">Natural_Neighbor_Verification.ipynb</span></code></a></div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.readthedocs.io">Gallery generated by Sphinx-Gallery</a></p>
 </div>
@@ -508,7 +508,7 @@ the above visual example to the 3rd decimal place.</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, MetPy Developers.
-      Last updated on Jan 04, 2018 at 19:17:05.
+      Last updated on Apr 12, 2018 at 00:47:55.
 
     </p>
   </div>
@@ -545,7 +545,7 @@ the above visual example to the 3rd decimal place.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.6.1+116.gba13b4c',
+            VERSION:'0.7.0+135.gaac1d34',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

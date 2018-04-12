@@ -77,7 +77,7 @@ Examples of using a variety of MetPy's functionality together.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="The MetPy function `mcalc.isentropic_interpolation` allows for isentropic analysis from model a...">
+    <div class="sphx-glr-thumbcontainer" tooltip="The MetPy function `mpcalc.isentropic_interpolation` allows for isentropic analysis from model ...">
 
 .. only:: html
 

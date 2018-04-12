@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Inverse Distance Verification: Cressman and Barnes &mdash; MetPy 0.6</title>
+  <title>Inverse Distance Verification: Cressman and Barnes &mdash; MetPy 0.7</title>
   
 
   
@@ -43,7 +43,7 @@
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="MetPy 0.6" href="../../index.html"/>
+    <link rel="top" title="MetPy 0.7" href="../../index.html"/>
         <link rel="up" title="MetPy Examples" href="../index.html"/>
         <link rel="next" title="Natural Neighbor Verification" href="Natural_Neighbor_Verification.html"/>
         <link rel="prev" title="Point Interpolation" href="Point_Interpolation.html"/> 
@@ -81,7 +81,7 @@
                 
                   <div class="version-dropdown">
                     <select class="version-list" id="version-list">
-                      <option value=''>0.6</option>
+                      <option value=''>0.7</option>
                       
                         
                           <option value="../latest">latest</option>
@@ -231,7 +231,7 @@ proportional value, primarily based on their distance from the grid cell.</li>
 interpolated value.</li>
 <li>Steps 2 through 4 are repeated for each grid cell.</li>
 </ol>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">scipy.spatial</span> <span class="kn">import</span> <a href="http://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.cKDTree.html#scipy.spatial.cKDTree" title="View documentation for scipy.spatial.cKDTree"><span class="n">cKDTree</span></a>
 <span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="kn">import</span> <a href="http://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.cdist.html#scipy.spatial.distance.cdist" title="View documentation for scipy.spatial.distance.cdist"><span class="n">cdist</span></a>
@@ -251,7 +251,7 @@ interpolated value.</li>
 </div>
 <p>Generate random x and y coordinates, and observation values proportional to x * y.</p>
 <p>Set up two test grid locations at (30, 30) and (60, 60).</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><a href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.random.seed.html#numpy.random.seed" title="View documentation for numpy.random.seed"><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span></a><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><a href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.random.seed.html#numpy.random.seed" title="View documentation for numpy.random.seed"><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span></a><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
 
 <span class="n">pts</span> <span class="o">=</span> <a href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.random.randint.html#numpy.random.randint" title="View documentation for numpy.random.randint"><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span></a><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 <span class="n">xp</span> <span class="o">=</span> <span class="n">pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
@@ -263,9 +263,9 @@ interpolated value.</li>
 </pre></div>
 </div>
 <p>Set up a cKDTree object and query all of the observations within “radius” of each grid point.</p>
-<p>The variable <code class="docutils literal"><span class="pre">indices</span></code> represents the index of each matched coordinate within the
-cKDTree’s <code class="docutils literal"><span class="pre">data</span></code> list.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">grid_points</span> <span class="o">=</span> <a href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.array.html#numpy.array" title="View documentation for numpy.array"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">sim_gridx</span><span class="p">,</span> <span class="n">sim_gridy</span><span class="p">)))</span>
+<p>The variable <code class="docutils literal notranslate"><span class="pre">indices</span></code> represents the index of each matched coordinate within the
+cKDTree’s <code class="docutils literal notranslate"><span class="pre">data</span></code> list.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">grid_points</span> <span class="o">=</span> <a href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.array.html#numpy.array" title="View documentation for numpy.array"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">sim_gridx</span><span class="p">,</span> <span class="n">sim_gridy</span><span class="p">)))</span>
 
 <span class="n">radius</span> <span class="o">=</span> <span class="mi">40</span>
 <span class="n">obs_tree</span> <span class="o">=</span> <a href="http://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.cKDTree.html#scipy.spatial.cKDTree" title="View documentation for scipy.spatial.cKDTree"><span class="n">cKDTree</span></a><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">xp</span><span class="p">,</span> <span class="n">yp</span><span class="p">)))</span>
@@ -273,7 +273,7 @@ cKDTree’s <code class="docutils literal"><span class="pre">data</span></code> 
 </pre></div>
 </div>
 <p>For grid 0, we will use Cressman to interpolate its value.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">obs_tree</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">indices</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">T</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">obs_tree</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">indices</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">T</span>
 <span class="n">cress_dist</span> <span class="o">=</span> <span class="n">dist_2</span><span class="p">(</span><span class="n">sim_gridx</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sim_gridy</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">)</span>
 <span class="n">cress_obs</span> <span class="o">=</span> <span class="n">zp</span><span class="p">[</span><span class="n">indices</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
 
@@ -282,7 +282,7 @@ cKDTree’s <code class="docutils literal"><span class="pre">data</span></code> 
 </div>
 <p>For grid 1, we will use barnes to interpolate its value.</p>
 <p>We need to calculate kappa–the average distance between observations over the domain.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">obs_tree</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">indices</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">T</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">obs_tree</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">indices</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">T</span>
 <span class="n">barnes_dist</span> <span class="o">=</span> <span class="n">dist_2</span><span class="p">(</span><span class="n">sim_gridx</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">sim_gridy</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">)</span>
 <span class="n">barnes_obs</span> <span class="o">=</span> <span class="n">zp</span><span class="p">[</span><span class="n">indices</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
 
@@ -293,7 +293,7 @@ cKDTree’s <code class="docutils literal"><span class="pre">data</span></code> 
 </pre></div>
 </div>
 <p>Plot all of the affiliated information and interpolation values.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">zval</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">zp</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">zval</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">zp</span><span class="p">):</span>
     <a href="http://matplotlib.org/api/_as_gen/matplotlib.pyplot.plot.html#matplotlib.pyplot.plot" title="View documentation for matplotlib.pyplot.plot"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span></a><span class="p">(</span><span class="n">pts</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">pts</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span>
     <a href="http://matplotlib.org/api/_as_gen/matplotlib.pyplot.annotate.html#matplotlib.pyplot.annotate" title="View documentation for matplotlib.pyplot.annotate"><span class="n">plt</span><span class="o">.</span><span class="n">annotate</span></a><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">zval</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; F&#39;</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">pts</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">pts</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))</span>
 
@@ -317,7 +317,7 @@ cKDTree’s <code class="docutils literal"><span class="pre">data</span></code> 
 step and visual breakdown.</p>
 <p>Plot the grid point, observations within radius of the grid point, their locations, and
 their distances from the grid point.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><a href="http://matplotlib.org/api/_as_gen/matplotlib.pyplot.annotate.html#matplotlib.pyplot.annotate" title="View documentation for matplotlib.pyplot.annotate"><span class="n">plt</span><span class="o">.</span><span class="n">annotate</span></a><span class="p">(</span><span class="s1">&#39;grid 0: ({}, {})&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sim_gridx</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sim_gridy</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><a href="http://matplotlib.org/api/_as_gen/matplotlib.pyplot.annotate.html#matplotlib.pyplot.annotate" title="View documentation for matplotlib.pyplot.annotate"><span class="n">plt</span><span class="o">.</span><span class="n">annotate</span></a><span class="p">(</span><span class="s1">&#39;grid 0: ({}, {})&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sim_gridx</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sim_gridy</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
              <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">sim_gridx</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">sim_gridy</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
 <a href="http://matplotlib.org/api/_as_gen/matplotlib.pyplot.plot.html#matplotlib.pyplot.plot" title="View documentation for matplotlib.pyplot.plot"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span></a><span class="p">(</span><span class="n">sim_gridx</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sim_gridy</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 
@@ -341,7 +341,7 @@ their distances from the grid point.</p>
 </div>
 <img alt="../../_images/sphx_glr_Inverse_Distance_Verification_002.png" class="align-center" src="../../_images/sphx_glr_Inverse_Distance_Verification_002.png" />
 <p>Step through the cressman calculations.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">dists</span> <span class="o">=</span> <a href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.array.html#numpy.array" title="View documentation for numpy.array"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="mf">22.803508502</span><span class="p">,</span> <span class="mf">7.21110255093</span><span class="p">,</span> <span class="mf">31.304951685</span><span class="p">,</span> <span class="mf">33.5410196625</span><span class="p">])</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dists</span> <span class="o">=</span> <a href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.array.html#numpy.array" title="View documentation for numpy.array"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="mf">22.803508502</span><span class="p">,</span> <span class="mf">7.21110255093</span><span class="p">,</span> <span class="mf">31.304951685</span><span class="p">,</span> <span class="mf">33.5410196625</span><span class="p">])</span>
 <span class="n">values</span> <span class="o">=</span> <a href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.array.html#numpy.array" title="View documentation for numpy.array"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="mf">0.064</span><span class="p">,</span> <span class="mf">1.156</span><span class="p">,</span> <span class="mf">3.364</span><span class="p">,</span> <span class="mf">0.225</span><span class="p">])</span>
 
 <span class="n">cres_weights</span> <span class="o">=</span> <span class="p">(</span><span class="n">radius</span> <span class="o">*</span> <span class="n">radius</span> <span class="o">-</span> <span class="n">dists</span> <span class="o">*</span> <span class="n">dists</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">radius</span> <span class="o">*</span> <span class="n">radius</span> <span class="o">+</span> <span class="n">dists</span> <span class="o">*</span> <span class="n">dists</span><span class="p">)</span>
@@ -356,12 +356,12 @@ their distances from the grid point.</p>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-default"><div class="highlight"><pre><span></span><span class="n">Manual</span> <span class="n">cressman</span> <span class="n">value</span> <span class="k">for</span> <span class="n">grid</span> <span class="mi">1</span><span class="p">:</span>        <span class="mf">1.05499444404</span>
-<span class="n">Metpy</span> <span class="n">cressman</span> <span class="n">value</span> <span class="k">for</span> <span class="n">grid</span> <span class="mi">1</span><span class="p">:</span>         <span class="mf">1.05499444404</span>
+<div class="sphx-glr-script-out highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Manual</span> <span class="n">cressman</span> <span class="n">value</span> <span class="k">for</span> <span class="n">grid</span> <span class="mi">1</span><span class="p">:</span>        <span class="mf">1.0549944440419021</span>
+<span class="n">Metpy</span> <span class="n">cressman</span> <span class="n">value</span> <span class="k">for</span> <span class="n">grid</span> <span class="mi">1</span><span class="p">:</span>         <span class="mf">1.0549944440416752</span>
 </pre></div>
 </div>
 <p>Now repeat for grid 1, except use barnes interpolation.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><a href="http://matplotlib.org/api/_as_gen/matplotlib.pyplot.annotate.html#matplotlib.pyplot.annotate" title="View documentation for matplotlib.pyplot.annotate"><span class="n">plt</span><span class="o">.</span><span class="n">annotate</span></a><span class="p">(</span><span class="s1">&#39;grid 1: ({}, {})&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sim_gridx</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">sim_gridy</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><a href="http://matplotlib.org/api/_as_gen/matplotlib.pyplot.annotate.html#matplotlib.pyplot.annotate" title="View documentation for matplotlib.pyplot.annotate"><span class="n">plt</span><span class="o">.</span><span class="n">annotate</span></a><span class="p">(</span><span class="s1">&#39;grid 1: ({}, {})&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sim_gridx</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">sim_gridy</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
              <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">sim_gridx</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">sim_gridy</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
 <a href="http://matplotlib.org/api/_as_gen/matplotlib.pyplot.plot.html#matplotlib.pyplot.plot" title="View documentation for matplotlib.pyplot.plot"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span></a><span class="p">(</span><span class="n">sim_gridx</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">sim_gridy</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 
@@ -385,7 +385,7 @@ their distances from the grid point.</p>
 </div>
 <img alt="../../_images/sphx_glr_Inverse_Distance_Verification_003.png" class="align-center" src="../../_images/sphx_glr_Inverse_Distance_Verification_003.png" />
 <p>Step through barnes calculations.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">dists</span> <span class="o">=</span> <a href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.array.html#numpy.array" title="View documentation for numpy.array"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="mf">9.21954445729</span><span class="p">,</span> <span class="mf">22.4722050542</span><span class="p">,</span> <span class="mf">27.892651362</span><span class="p">,</span> <span class="mf">38.8329756779</span><span class="p">])</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dists</span> <span class="o">=</span> <a href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.array.html#numpy.array" title="View documentation for numpy.array"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="mf">9.21954445729</span><span class="p">,</span> <span class="mf">22.4722050542</span><span class="p">,</span> <span class="mf">27.892651362</span><span class="p">,</span> <span class="mf">38.8329756779</span><span class="p">])</span>
 <span class="n">values</span> <span class="o">=</span> <a href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.array.html#numpy.array" title="View documentation for numpy.array"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="mf">2.809</span><span class="p">,</span> <span class="mf">6.241</span><span class="p">,</span> <span class="mf">4.489</span><span class="p">,</span> <span class="mf">2.704</span><span class="p">])</span>
 
 <span class="n">weights</span> <span class="o">=</span> <a href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.exp.html#numpy.exp" title="View documentation for numpy.exp"><span class="n">np</span><span class="o">.</span><span class="n">exp</span></a><span class="p">(</span><span class="o">-</span><span class="n">dists</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">kappa</span><span class="p">)</span>
@@ -397,16 +397,16 @@ their distances from the grid point.</p>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-default"><div class="highlight"><pre><span></span><span class="n">Manual</span> <span class="n">barnes</span> <span class="n">value</span><span class="p">:</span>     <span class="mf">4.08718241061</span>
-<span class="n">Metpy</span> <span class="n">barnes</span> <span class="n">value</span><span class="p">:</span>      <span class="mf">4.08718241061</span>
+<div class="sphx-glr-script-out highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Manual</span> <span class="n">barnes</span> <span class="n">value</span><span class="p">:</span>     <span class="mf">4.087182410612323</span>
+<span class="n">Metpy</span> <span class="n">barnes</span> <span class="n">value</span><span class="p">:</span>      <span class="mf">4.087182410612151</span>
 </pre></div>
 </div>
-<p><strong>Total running time of the script:</strong> ( 0 minutes  0.178 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  0.197 seconds)</p>
 <div class="sphx-glr-footer docutils container">
 <div class="sphx-glr-download docutils container">
-<a class="reference download internal" href="../../_downloads/Inverse_Distance_Verification.py" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">Inverse_Distance_Verification.py</span></code></a></div>
+<a class="reference download internal" href="../../_downloads/Inverse_Distance_Verification.py" download=""><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">Inverse_Distance_Verification.py</span></code></a></div>
 <div class="sphx-glr-download docutils container">
-<a class="reference download internal" href="../../_downloads/Inverse_Distance_Verification.ipynb" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">Inverse_Distance_Verification.ipynb</span></code></a></div>
+<a class="reference download internal" href="../../_downloads/Inverse_Distance_Verification.ipynb" download=""><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">Inverse_Distance_Verification.ipynb</span></code></a></div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.readthedocs.io">Gallery generated by Sphinx-Gallery</a></p>
 </div>
@@ -434,7 +434,7 @@ their distances from the grid point.</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, MetPy Developers.
-      Last updated on Jan 04, 2018 at 19:17:05.
+      Last updated on Apr 12, 2018 at 00:47:55.
 
     </p>
   </div>
@@ -471,7 +471,7 @@ their distances from the grid point.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.6.1+116.gba13b4c',
+            VERSION:'0.7.0+135.gaac1d34',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

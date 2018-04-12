@@ -7,6 +7,23 @@ GiniFile
 
    
    
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~GiniFile.channels
+      ~GiniFile.crafts
+      ~GiniFile.lc_ps_fmt
+      ~GiniFile.mercator_fmt
+      ~GiniFile.missing
+      ~GiniFile.nav_fmt
+      ~GiniFile.prod_desc2_fmt
+      ~GiniFile.prod_desc_fmt
+      ~GiniFile.sectors
+      ~GiniFile.wmo_finder
+
+   
    
 
    
@@ -23,6 +40,22 @@ GiniFile
    
 
    
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: channels
+   .. autoattribute:: crafts
+   .. autoattribute:: lc_ps_fmt
+   .. autoattribute:: mercator_fmt
+   .. autoattribute:: missing
+   .. autoattribute:: nav_fmt
+   .. autoattribute:: prod_desc2_fmt
+   .. autoattribute:: prod_desc_fmt
+   .. autoattribute:: sectors
+   .. autoattribute:: wmo_finder
+
    
    
 
